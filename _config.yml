@@ -10,19 +10,20 @@
 ############################
 
 # Name of website
-title: My website sssssss
+title: Parallel Graph Coloring Project
 
 # Your name to show in the footer
-author: Some Person
+author: Deming Chen & Benjamin Lash
 
 ###############################################
 # --- List of links in the navigation bar --- #
 ###############################################
 
 navbar-links:
-  About Me: "aboutus"
-  Project Proposal: "https://2025parallelgraph.github.io/proposal"
-  Project Milestone Report: "https://2025parallelgraph.github.io/milestone"
+  About Us: "aboutus"
+  Project:
+    - Proposal: "https://2025parallelgraph.github.io/proposal"
+    - Milestone Report: "https://2025parallelgraph.github.io/milestone"
 
 ################
 # --- Logo --- #
