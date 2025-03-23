@@ -1,7 +1,6 @@
 ---
 layout: page
 title: About us
-subtitle: Group Information and Contacts
 
 
 ---
