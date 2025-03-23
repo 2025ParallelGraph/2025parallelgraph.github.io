@@ -21,9 +21,8 @@ author: Some Person
 
 navbar-links:
   About Me: "aboutus"
-  Resources:
-    - Project Proposal: "https://2025parallelgraph.github.io/proposal"
-    - Project Milestone Report: "https://2025parallelgraph.github.io/milestone"
+  Project Proposal: "https://2025parallelgraph.github.io/proposal"
+  Project Milestone Report: "https://2025parallelgraph.github.io/milestone"
 
 ################
 # --- Logo --- #
