@@ -4,6 +4,8 @@ title: Project Proposal
 
 ---
 
+# Parallel Graph Coloring Algorithms
+
 ## Summary
 
 We are going to implement two related parallel graph coloring algorithms on the GHC and PSC machines on CPUs using OpenMP.
@@ -17,6 +19,8 @@ Graph coloring started out as a problem in pure mathematics. But since then, var
 In graph coloring, there are two conflicting goals. First, one wants to use few colors, maybe even the fewest possible. On the other hand, efficiency is an important goal. If one is scheduling parallel computations, then one does not want to waste too much time simply computing the graph and it may make sense to produce a suboptimal coloring if the time it would take to generate a perfect coloring would be much greater than the time saved. The balance between these two goals depends on the precise application.
 
 The algorithms we are implementing are heuristic based algorithms that, roughly speaking, iterate through nodes and assign them label ids that are the smallest possible given their neighbors. Our algorithm is meant to be used in scheduling situations when each node represents a small amount of computation, and therefore we care more about the efficiency of producing the coloring than using a small set of colors. In particular, our algorithm first generates a pseudo-coloring that has a small number of conflicts and then resolves the small set of conflicts sequentially.
+
+See the resources section for the pseudocode as presented by [1].
 
 ## The Challenge
 
@@ -38,27 +42,23 @@ We will also use real-world graph datasets to test the algorithms. We are yet to
 
 ### If the work goes slowly
 
-We plan to create a baseline of a greedy sequential algorithm which iterates through each node and assigns it the label with the lowest id that is not shared by any already colored neighbors.
-
-We plan to implement the synchronous version of algorithm 1 from [1] in OpenMP.
-
-We also plan to write test cases utilizing a few different graphs. We plan to do the testing on both GHC and PSC.
+- Create a baseline of a greedy sequential algorithm which iterates through each node and assigns it the label with the lowest id that is not shared by any already colored neighbors.
+- Implement the synchronous version of algorithm 1 from [1] in OpenMP.
+- Test cases utilizing a few different graphs.We plan to do the testing on both GHC and PSC.
 
 ### Plan to Achieve
 
-We want to create an implementation of both the synchronous and asynchronous versions of algorithm 1 and 2 from [1] in OpenMP.
-
-We want to write test cases for the algorithm utilizing a variety of graphs, including generated ones and ones from real world datasets. We want to see how algorithm performance relates to graph structure. We plan to do the testing on both GHC and PSC.
+- Implementation of both the synchronous and asynchronous versions of algorithm 1 and 2 from [1] in OpenMP.
+- Test cases for the algorithm utilizing a variety of graphs, including generated ones and ones from real world datasets. We want to see how algorithm performance relates to graph structure. We plan to do the testing on both GHC and PSC.
 
 ### Hope to Achieve
 
-We want to produce a modification of algorithm 2 where step 2, the refining of the pseudo coloring, is repeated more than once. We will repeat either a number of times given by the user as an argument or more than once.
-
-If we are well ahead of schedule, we plan to also reimplement algorithm 1 and possibly algorithm 2 on a GPU in cuda. 
+- A modification of algorithm 2 where step 2 of the pseudocode as presented in [1] (the refining of the pseudo coloring) is repeated several times. We will repeat either a number of times given by the user as an argument or until convergence.
+- A modification of the algorithms where some nodes in the input graph are already colored and are not permitted to be recolored.
 
 ## Platform Choice
 
-We plan to use OpenMP on the GHC and PSC machines. A common application of graph coloring is scheduling tasks on a parallel. We are aiming to create a graph coloring algorithm that could be used by someone working on a single node machine. While message passing is good for clusters, a shared address model is better for a single node. 
+We plan to use OpenMP on the GHC and PSC machines. A common application of graph coloring is scheduling tasks on a parallel machine. We are aiming to create a graph coloring algorithm that could be used by someone working on a single node machine. While message passing is good for clusters, a shared address model is better for a single node. 
 
 Using message passing, we would need to replicate a lot of data. Threads need to be able to access nodes being processed by other threads because those nodes could be neighbors. This would mean that every thread would need to maintain copies of all the neighbors of the nodes it is assigned.
 
