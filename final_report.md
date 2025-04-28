@@ -361,16 +361,86 @@ We find that with the fixed forbidden optimization, overall runtime and per-iter
 
 ![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXce6dYB2KrjHK9f1eZwwrvayPyaaJIacid2DthefwyRr-ycnR8D4OV3_MXfyqpEeuZqjV1mFLjWJewnPOvpS7Xh7y12QrN2F8wXJNAsE4KD85UB20EYv0WrUzKCMDEEiXSGnP3x?key=z3F8mAkkn6pnvRk-JbYRWtCU)
 
-|             | Total Computation Time (Sec) | Iterations   | Time Per Iteration (Sec) |              |             |              |
-| ----------- | ---------------------------- | ------------ | ------------------------ | ------------ | ----------- | ------------ |
-|             | Unoptimized                  | Fixed Forbid | Unoptimized              | Fixed Forbid | Unoptimized | Fixed Forbid |
-| *artist*    | 0.00395                      | 0.00254      | 4                        | 6            | 0.00099     | 0.00042      |
-| *audikw*    | 0.04135                      | 0.03854      | 3                        | 4            | 0.01378     | 0.00964      |
-| *bump*      | 0.09074                      | 0.09722      | 3                        | 3            | 0.03025     | 0.03241      |
-| *circuit5M* | N/A                          | 0.78115      | N/A                      | 2            | N/A         | 0.39057      |
-| *facebook*  | 0.00487                      | 0.00372      | 56                       | 42           | 0.00009     | 0.00009      |
-| *hollywood* | N/A                          | 0.31952      | N/A                      | 27           | N/A         | 0.01183      |
-| *kron_g500* | N/A                          | 1.53450      | N/A                      | 18           | N/A         | 0.08525      |
+<table>
+    <tr>
+        <td> </td>
+        <td colspan="2" align="center" style="font-weight: bold">Total Computation Time (Sec)</td>
+        <td colspan="2" align="center" style="font-weight: bold">Iterations</td>
+        <td colspan="2" align="center" style="font-weight: bold">Time Per Iteration (Sec)</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Unoptimized</td>
+        <td>Fixed Forbid</td>
+        <td>Unoptimized</td>
+        <td>Fixed Forbid</td>
+        <td>Unoptimized</td>
+        <td>Fixed Forbid </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">artist</td>
+        <td>0.00395</td>
+        <td>0.00254</td>
+        <td>4.00000</td>
+        <td>6</td>
+        <td>0.00099</td>
+        <td>0.00042 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">audikw</td>
+        <td>0.04135</td>
+        <td>0.03854</td>
+        <td>3.00000</td>
+        <td>4</td>
+        <td>0.01378</td>
+        <td>0.00964 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">bump</td>
+        <td>0.09074</td>
+        <td>0.09722</td>
+        <td>3.00000</td>
+        <td>3</td>
+        <td>0.03025</td>
+        <td>0.03241 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">circuit5M</td>
+        <td>N/A</td>
+        <td>0.78115</td>
+        <td>N/A</td>
+        <td>2</td>
+        <td>N/A</td>
+        <td>0.39057 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">facebook</td>
+        <td>0.00487</td>
+        <td>0.00372</td>
+        <td>56.00000</td>
+        <td>42</td>
+        <td>0.000087</td>
+        <td>0.000088 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">hollywood</td>
+        <td>N/A</td>
+        <td>0.31952</td>
+        <td>N/A</td>
+        <td>27</td>
+        <td>N/A</td>
+        <td>0.01183 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">kron_g500</td>
+        <td>N/A</td>
+        <td>1.53450</td>
+        <td>N/A</td>
+        <td>18</td>
+        <td>N/A</td>
+        <td>0.08525</td>
+    </tr>
+</table>
 
 We find that on most graphs, a majority of runtime is spent in `DetectConflicts`. We further find that on *hollywood* and *kron_g500*, `AssignColors` dominates by a large margin. Notice that in both of these graphs, the number of colors is high, meaning that `AssignColors` must iterate through many color sets in order to find colors, which may explain why `AssignColors` dominates the runtime on these graphs.
 
@@ -387,7 +457,7 @@ Table: Number of Colors between the Results Produced with and without the Fixed 
 | *bump*      | 31          | 31           |
 | *circuit5M* | N/A         | 9            |
 | *facebook*  | 92          | 86           |
-| *hollywood* | N/A         | 2209         |
+| *hollywood* | N/A         | 2,209        |
 | *kron_g500* | N/A         | 823          |
 
 ### 4.3 Edge Based Algorithms Optimization
@@ -413,9 +483,9 @@ Because the forbidden list was stored in global memory in the edge-based algorit
 <table>
     <tr align="center">
         <td></td>
-        <td colspan="2">Total Computation Time (Sec)</td>
-        <td colspan="2">Iterations</td>
-        <td colspan="2">Time Per Iteration (Sec)</td>
+        <td colspan="2" align="center" style="font-weight: bold">Total Computation Time (Sec)</td>
+        <td colspan="2" align="center" style="font-weight: bold">Iterations</td>
+        <td colspan="2" align="center" style="font-weight: bold">Time Per Iteration (Sec)</td>
     </tr>
     <tr>
         <td></td>
@@ -519,27 +589,200 @@ Using tentative coloring generally resulted in decreased runtime. This decrease 
 
 Nonetheless, tentative coloring did increase the time per iteration. We found this rise could be ascribed to time spent in the TentativeColor kernel. We found that the computation time per iteration spent outside of TentativeColor did not change significantly with the tentative coloring optimization.
 
-|           | Computation Time (Sec) | Non-TentativeColor Time (Sec) | TentativeColor Time (Sec) | Iterations |           |             |           |      |
-| --------- | ---------------------- | ----------------------------- | ------------------------- | ---------- | --------- | ----------- | --------- | ---- |
-| Color Set | Tentative              | Color Set                     | Tentative                 | Color Set  | Tentative | Color Set   | Tentative |      |
-| artist    | 0.00857                | 0.00701                       | 0.00857                   | 0.00659    | 0         | 0.000425726 | 42        | 23   |
-| facebook  | 0.00579                | 0.00149                       | 0.00579                   | 0.00124    | 0         | 0.000248388 | 89        | 19   |
-| audikw    | 1.86240                | 0.70625                       | 1.86240                   | 0.38633    | 0         | 0.319922    | 51        | 12   |
-| bump      | 4.22084                | 1.94302                       | 4.22084                   | 1.12288    | 0         | 0.820136    | 32        | 9    |
-| circuit5M | 0.39724                | 0.31352                       | 0.39724                   | 0.18452    | 0         | 0.128999    | 9         | 4    |
-| hollywood | 72.55820               | 10.78090                      | 72.55820                  | 5.96886    | 0         | 4.81204     | 2278      | 186  |
-| kron_g500 | 43.41730               | 7.05623                       | 43.41730                  | 4.20758    | 0         | 2.84865     | 682       | 68   |
-
-|           | Time Per Iteration (Sec) | Non-TentativeColor Time Per Iteration (Sec) | TentativeColor Time Per Iteration (Sec) | Iterations |           |           |           |      |
-| --------- | ------------------------ | ------------------------------------------- | --------------------------------------- | ---------- | --------- | --------- | --------- | ---- |
-| Color Set | Tentative                | Color Set                                   | Tentative                               | Color Set  | Tentative | Color Set | Tentative |      |
-| artist    | 0.00020                  | 0.00030                                     | 0.00020                                 | 0.00029    | 0         | 0.000018  | 42        | 23   |
-| audikw    | 0.03652                  | 0.05885                                     | 0.03652                                 | 0.03219    | 0         | 0.02667   | 51        | 12   |
-| bump      | 0.13190                  | 0.21589                                     | 0.13190                                 | 0.12476    | 0         | 0.091126  | 32        | 9    |
-| circuit5M | 0.04414                  | 0.07838                                     | 0.04414                                 | 0.04613    | 0         | 0.03225   | 9         | 4    |
-| facebook  | 0.00007                  | 0.00008                                     | 0.00007                                 | 0.00007    | 0         | 0.000013  | 89        | 19   |
-| hollywood | 0.03185                  | 0.05796                                     | 0.03185                                 | 0.03209    | 0         | 0.0259    | 2278      | 186  |
-| kron_g500 | 0.06366                  | 0.10377                                     | 0.06366                                 | 0.06188    | 0         | 0.04189   | 682       | 68   |
+<table>
+    <tr>
+        <td></td>
+        <td colspan="2" align="center" style="font-weight: bold">Computation Time</td>
+        <td colspan="2" align="center" style="font-weight: bold">Non-TentativeColor Time</td>
+        <td colspan="2" align="center" style="font-weight: bold">TentativeColor Time</td>
+        <td colspan="2" align="center" style="font-weight: bold">Iterations</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Color Set</td>
+        <td>Tentative</td>
+        <td>Color Set</td>
+        <td>Tentative</td>
+        <td>Color Set</td>
+        <td>Tentative</td>
+        <td>Color Set</td>
+        <td>Tentative </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">artist</td>
+        <td>0.00857</td>
+        <td>0.00701</td>
+        <td>0.00857</td>
+        <td>0.00659</td>
+        <td>\</td>
+        <td>0.000425726</td>
+        <td>42</td>
+        <td>23 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">facebook</td>
+        <td>0.00579</td>
+        <td>0.00149</td>
+        <td>0.00579</td>
+        <td>0.00124</td>
+        <td>\</td>
+        <td>0.000248388</td>
+        <td>89</td>
+        <td>19 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">audikw</td>
+        <td>1.86240</td>
+        <td>0.70625</td>
+        <td>1.86240</td>
+        <td>0.38633</td>
+        <td>\</td>
+        <td>0.319922</td>
+        <td>51</td>
+        <td>12 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">bump</td>
+        <td>4.22084</td>
+        <td>1.94302</td>
+        <td>4.22084</td>
+        <td>1.12288</td>
+        <td>\</td>
+        <td>0.820136</td>
+        <td>32</td>
+        <td>9 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">circuit5M</td>
+        <td>0.39724</td>
+        <td>0.31352</td>
+        <td>0.39724</td>
+        <td>0.18452</td>
+        <td>\</td>
+        <td>0.128999</td>
+        <td>9</td>
+        <td>4 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">hollywood</td>
+        <td>72.55820</td>
+        <td>10.78090</td>
+        <td>72.55820</td>
+        <td>5.96886</td>
+        <td>\</td>
+        <td>4.81204</td>
+        <td>2278</td>
+        <td>186 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">kron_g500</td>
+        <td>43.41730</td>
+        <td>7.05623</td>
+        <td>43.41730</td>
+        <td>4.20758</td>
+        <td>\</td>
+        <td>2.84865</td>
+        <td>682</td>
+        <td>68</td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td></td>
+        <td colspan="2" align="center" style="font-weight: bold">Time / Iter (ms)</td>
+        <td colspan="2" align="center" style="font-weight: bold">Non-TentativeColor Time / Iter (ms)</td>
+        <td colspan="2" align="center" style="font-weight: bold">TentativeColor Time /Iter (ms)</td>
+        <td colspan="2" align="center" style="font-weight: bold">Iterations</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Color Set</td>
+        <td>Tentative</td>
+        <td>Color Set</td>
+        <td>Tentative</td>
+        <td>Color Set</td>
+        <td>Tentative</td>
+        <td>Color Set</td>
+        <td>Tentative </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">artist</td>
+        <td>0.20398</td>
+        <td>0.30494</td>
+        <td>0.20398</td>
+        <td>0.28643</td>
+        <td>0</td>
+        <td>0.0185</td>
+        <td>42</td>
+        <td>23 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">audikw</td>
+        <td>36.51765</td>
+        <td>58.85417</td>
+        <td>36.51765</td>
+        <td>32.19400</td>
+        <td>0</td>
+        <td>26.6602</td>
+        <td>51</td>
+        <td>12 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">bump</td>
+        <td>131.90125</td>
+        <td>215.89111</td>
+        <td>131.90125</td>
+        <td>124.76489</td>
+        <td>0</td>
+        <td>91.1262</td>
+        <td>32</td>
+        <td>9 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">circuit5M</td>
+        <td>44.13744</td>
+        <td>78.37925</td>
+        <td>44.13744</td>
+        <td>46.12950</td>
+        <td>0</td>
+        <td>32.2498</td>
+        <td>9</td>
+        <td>4 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">facebook</td>
+        <td>0.06503</td>
+        <td>0.07847</td>
+        <td>0.06503</td>
+        <td>0.06539</td>
+        <td>0</td>
+        <td>0.0131</td>
+        <td>89</td>
+        <td>19 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">hollywood</td>
+        <td>31.85171</td>
+        <td>57.96183</td>
+        <td>31.85171</td>
+        <td>32.09065</td>
+        <td>0</td>
+        <td>25.8712</td>
+        <td>2278</td>
+        <td>186 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">kron_g500</td>
+        <td>63.66173</td>
+        <td>103.76809</td>
+        <td>63.66173</td>
+        <td>61.87618</td>
+        <td>0</td>
+        <td>41.8919</td>
+        <td>682</td>
+        <td>68</td>
+    </tr>
+</table>
 
 ![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdK2BGd2cQhF65pZzA6rO-zsd3MoxNf-2OwCGXTh0S51iIg7o7_qs6LSueoXJzi-tv1_-FGpeUSb9cva2IpSO10v-jLDLQ5fD-AhJujHHYF45Mmk7R8gQAUEhBfpGfTxX9nMj_X8A?key=z3F8mAkkn6pnvRk-JbYRWtCU)
 
@@ -600,17 +843,94 @@ We find no consistent difference in the number of colors. On most graphs, the nu
 
 ![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXc5leoW97z8N9GhfMZN1x-tO212SDLTTIzDYlJYxVLnFkBXTgU0oDMbAU0T-Ca8mOqCKcK1H8OUTToLTceU1ArGfLaNpagFlm7KxrvGHVrwcygcyBaAzidcFo9nQ2cdFlXWt16q?key=z3F8mAkkn6pnvRk-JbYRWtCU)
 
-|           | Total Computation Time (Sec) | Iterations |              | Time Per Iteration (Sec) | Max Degree   |            |           |
-| --------- | ---------------------------- | ---------- | ------------ | ------------------------ | ------------ | ---------- | --------- |
-|           | Vertex-Based                 | Edge-Based | Vertex-Based | Edge-Based               | Vertex-Based | Edge-Based |           |
-| artist    | 0.00254                      | 0.00124    | 6            | 10                       | 0.00042      | 0.00012    | 1469      |
-| audikw    | 0.03854                      | 0.21779    | 4            | 13                       | 0.00964      | 0.01675    | 344       |
-| bump      | 0.09722                      | 0.71590    | 3            | 9                        | 0.03241      | 0.07954    | 194       |
-| circuit5M | 0.78115                      | 0.12029    | 2            | 4                        | 0.39057      | 0.03007    | 1,290,500 |
-| facebook  | 0.00372                      | 0.00281    | 42           | 32                       | 0.000088     | 0.000088   | 1,045     |
-| hollywood | 0.31952                      | 0.62201    | 27           | 275                      | 0.01183      | 0.00226    | 11467     |
-| kron_g500 | 1.53450                      | 0.73351    | 18           | 105                      | 0.08525      | 0.00699    | 213904    |
-
+<table>
+    <tr>
+        <td> </td>
+        <td colspan="2" align="center" style="font-weight: bold">Total Computation Time (Sec)</td>
+        <td colspan="2" align="center" style="font-weight: bold">Iterations</td>
+        <td colspan="2" align="center" style="font-weight: bold">Time Per Iteration</td>
+        <td rowspan="2" align="center" valign="center" style="font-weight: bold">Max Degree</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Vertex-Based</td>
+        <td>Edge-Based</td>
+        <td>Vertex-Baed</td>
+        <td>Edge-Based</td>
+        <td>Vertex-Baed</td>
+        <td>Edge-Based</td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">artist</td>
+        <td>0.00254</td>
+        <td>0.00124</td>
+        <td>6</td>
+        <td>10</td>
+        <td>0.00042</td>
+        <td>0.00012</td>
+        <td>1,469 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">audikw</td>
+        <td>0.03854</td>
+        <td>0.21779</td>
+        <td>4</td>
+        <td>13</td>
+        <td>0.00964</td>
+        <td>0.01675</td>
+        <td>344 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">bump</td>
+        <td>0.09722</td>
+        <td>0.71590</td>
+        <td>3</td>
+        <td>9</td>
+        <td>0.03241</td>
+        <td>0.07954</td>
+        <td>194 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">circuit5M</td>
+        <td>0.78115</td>
+        <td>0.12029</td>
+        <td>2</td>
+        <td>4</td>
+        <td>0.39057</td>
+        <td>0.03007</td>
+        <td>1,290,500 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">facebook</td>
+        <td>0.00372</td>
+        <td>0.00281</td>
+        <td>42</td>
+        <td>32</td>
+        <td>0.000088</td>
+        <td>0.000088</td>
+        <td>1,045 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">hollywood</td>
+        <td>0.31952</td>
+        <td>0.62201</td>
+        <td>27</td>
+        <td>275</td>
+        <td>0.01183</td>
+        <td>0.00226</td>
+        <td>11,467 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">kron_g500</td>
+        <td>1.53450</td>
+        <td>0.73351</td>
+        <td>18</td>
+        <td>105</td>
+        <td>0.08525</td>
+        <td>0.00699</td>
+        <td>213,904</td>
+    </tr>
+</table>
 ### 4.5 Block Size
 
 #### 4.5.1 Block Size in Vertex-Based Algorithms
