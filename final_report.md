@@ -349,9 +349,9 @@ As detailed in subsequent sections, the unoptimized vertex-based algorithm has s
 
 We find that a majority of runtime is spent in `DetectConflicts` on all tested graphs.
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXejpc6rrPgXqOTnWbvp02CIwHeDm257qp7g7YdeqS53ohwWrs4xMaq3vVz3oLxHtn2FKmxqC_1Dq5EzSW9VLUchY1nhpzkp0VDemMIfA9bm9LZJFLIYrO_Fv0_0Main9EkZwvCVBQ?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+![image-20250427224432445](assets/image-20250427224432445.png)
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXeIU5wpE9D3UGj423rkIQCu4E-hDiwiWRok4S4RZuAB7LstRg5RKshWlpJ3qttqHJymv-9PsG_uyWcUxq9gX7bZyLSvPLfvwomd3jlr_y5e3tEnEC5_-okx-8UGNDwW2LDUwNQ0?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+**Figure**: Computation time of unoptimized vertex-based algorithm on 4 graphs. The left one shows time split between `DetectConflicts` and `AssignColors`; the right one shows the total computation time.
 
 #### 4.2.2 Fixed Forbidden Optimization
 
@@ -359,7 +359,11 @@ Without the fixed forbidden optimization, memory errors prevented us from proces
 
 We find that with the fixed forbidden optimization, overall runtime and per-iteration runtime is generally smaller. Recall that without the fixed forbidden optimization, threads must iterate through a long list of forbidden colors. We speculate that the lack of need to iterate through these colors when the fixed forbidden optimization is applied reduces runtime. 
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXce6dYB2KrjHK9f1eZwwrvayPyaaJIacid2DthefwyRr-ycnR8D4OV3_MXfyqpEeuZqjV1mFLjWJewnPOvpS7Xh7y12QrN2F8wXJNAsE4KD85UB20EYv0WrUzKCMDEEiXSGnP3x?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+![image-20250427225431569](assets/image-20250427225431569.png)
+
+**Figure**: Comparison between the total computation time with and without the Fixed Forbidden optimization.
+
+
 
 <table>
     <tr>
@@ -489,12 +493,12 @@ Because the forbidden list was stored in global memory in the edge-based algorit
     </tr>
     <tr>
         <td></td>
-        <td>Unoptimized </td>
-        <td>Fixed Forbid </td>
-        <td>Unoptimized </td>
-        <td>Fixed Forbid </td>
-        <td>Unoptimized </td>
-        <td>Fixed Forbid </td>
+        <td>Unoptimized</td>
+        <td>Fixed Forbid</td>
+        <td>Unoptimized</td>
+        <td>Fixed Forbid</td>
+        <td>Unoptimized</td>
+        <td>Fixed Forbid</td>
     </tr>
     <tr>
         <td style="font-style: italic">artist </td>
@@ -560,6 +564,7 @@ Because the forbidden list was stored in global memory in the edge-based algorit
         <td>0.08525 </td>
     </tr>
 </table>
+
 
 ![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXeEitlaeTr6hLUASI005c1mf4P80mRStz4JWR2rn3SZdNHsIDFrAUW4qQjlk9A0m--tKjPoy28rocJPDMjtLd61C0ZtjRc5755YIy-euNeQ2L0P0RpV3elFjqbW2La80E2jlfXUEg?key=z3F8mAkkn6pnvRk-JbYRWtCU)
 
@@ -711,7 +716,7 @@ Nonetheless, tentative coloring did increase the time per iteration. We found th
         <td>0.30494</td>
         <td>0.20398</td>
         <td>0.28643</td>
-        <td>0</td>
+        <td>\</td>
         <td>0.0185</td>
         <td>42</td>
         <td>23 </td>
@@ -722,7 +727,7 @@ Nonetheless, tentative coloring did increase the time per iteration. We found th
         <td>58.85417</td>
         <td>36.51765</td>
         <td>32.19400</td>
-        <td>0</td>
+        <td>\</td>
         <td>26.6602</td>
         <td>51</td>
         <td>12 </td>
@@ -733,7 +738,7 @@ Nonetheless, tentative coloring did increase the time per iteration. We found th
         <td>215.89111</td>
         <td>131.90125</td>
         <td>124.76489</td>
-        <td>0</td>
+        <td>\</td>
         <td>91.1262</td>
         <td>32</td>
         <td>9 </td>
@@ -744,7 +749,7 @@ Nonetheless, tentative coloring did increase the time per iteration. We found th
         <td>78.37925</td>
         <td>44.13744</td>
         <td>46.12950</td>
-        <td>0</td>
+        <td>\</td>
         <td>32.2498</td>
         <td>9</td>
         <td>4 </td>
@@ -755,7 +760,7 @@ Nonetheless, tentative coloring did increase the time per iteration. We found th
         <td>0.07847</td>
         <td>0.06503</td>
         <td>0.06539</td>
-        <td>0</td>
+        <td>\</td>
         <td>0.0131</td>
         <td>89</td>
         <td>19 </td>
@@ -766,7 +771,7 @@ Nonetheless, tentative coloring did increase the time per iteration. We found th
         <td>57.96183</td>
         <td>31.85171</td>
         <td>32.09065</td>
-        <td>0</td>
+        <td>\</td>
         <td>25.8712</td>
         <td>2278</td>
         <td>186 </td>
@@ -777,7 +782,7 @@ Nonetheless, tentative coloring did increase the time per iteration. We found th
         <td>103.76809</td>
         <td>63.66173</td>
         <td>61.87618</td>
-        <td>0</td>
+        <td>\</td>
         <td>41.8919</td>
         <td>682</td>
         <td>68</td>
@@ -795,19 +800,87 @@ Although the Tentative Color Optimization reduces the total computational time, 
 #### 4.3.4 Edge Removal Optimization
 
 Our edge removal optimization resulted in a significant decrease in runtime. While the number of iterations increased with some graphs, the average time per iteration decreased significantly.
-
-|           | Total Computation Time (Sec) | Iterations   | Time Per Iteration (Sec) |              |           |              |
-| --------- | ---------------------------- | ------------ | ------------------------ | ------------ | --------- | ------------ |
-|           | Tentative                    | Edge Removal | Tentative                | Edge Removal | Tentative | Edge Removal |
-| artist    | 0.00701                      | 0.00124      | 23                       | 10           | 0.00030   | 0.00012      |
-| audikw    | 0.70625                      | 0.21779      | 12                       | 13           | 0.05885   | 0.01675      |
-| bump      | 1.94302                      | 0.71590      | 9                        | 9            | 0.21589   | 0.07954      |
-| circuit5M | 0.31352                      | 0.12029      | 4                        | 4            | 0.07838   | 0.03007      |
-| facebook  | 0.00149                      | 0.00281      | 19                       | 32           | 0.00008   | 0.00009      |
-| hollywood | 10.78090                     | 0.62201      | 186                      | 275          | 0.05796   | 0.00226      |
-| kron_g500 | 7.05623                      | 0.73351      | 68                       | 105          | 0.10377   | 0.00699      |
-
-We find that the most of the runtime is spent in CreateNewEdgeList, TentativeColor, and ForbidColors.
+<table>
+    <tr>
+        <td> </td>
+        <td colspan="2" align="center" style="font-weight: bold">Total Computation Time</td>
+        <td colspan="2" align="center" style="font-weight: bold">Iterations</td>
+        <td colspan="2" align="center" style="font-weight: bold">Time Per Iteration</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Tentative</td>
+        <td>Edge Removal</td>
+        <td>Tentative</td>
+        <td>Edge Removal</td>
+        <td>Tentative</td>
+        <td>Edge Removal </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">artist</td>
+        <td>0.00701</td>
+        <td>0.00124</td>
+        <td>23</td>
+        <td>10</td>
+        <td>0.00030</td>
+        <td>0.00012 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">audikw</td>
+        <td>0.70625</td>
+        <td>0.21779</td>
+        <td>12</td>
+        <td>13</td>
+        <td>0.05885</td>
+        <td>0.01675 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">bump</td>
+        <td>1.94302</td>
+        <td>0.71590</td>
+        <td>9</td>
+        <td>9</td>
+        <td>0.21589</td>
+        <td>0.07954 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">circuit5M</td>
+        <td>0.31352</td>
+        <td>0.12029</td>
+        <td>4</td>
+        <td>4</td>
+        <td>0.07838</td>
+        <td>0.03007 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">facebook</td>
+        <td>0.00149</td>
+        <td>0.00281</td>
+        <td>19</td>
+        <td>32</td>
+        <td>0.00008</td>
+        <td>0.00009 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">hollywood</td>
+        <td>10.78090</td>
+        <td>0.62201</td>
+        <td>186</td>
+        <td>275</td>
+        <td>0.05796</td>
+        <td>0.00226 </td>
+    </tr>
+    <tr>
+        <td style="font-style: italic">kron_g500</td>
+        <td>7.05623</td>
+        <td>0.73351</td>
+        <td>68</td>
+        <td>105</td>
+        <td>0.10377</td>
+        <td>0.00699</td>
+    </tr>
+</table>
+We find that the most of the runtime is spent in `CreateNewEdgeList`, `TentativeColor`, and `ForbidColors`.
 
 **![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXd7CeqNOkdgfn8cOsfyP2HjUdxnFGXRF0tvbLRW1QXG63fYLkpGL8_A93i4tU6ijqlBu0uAE4MAns-Fj8259TiYTpZy6ZL8aAb2dCLQPNVq35jUv_F_HJdgh0CreLiQqlwJX2Pv2Q?key=z3F8mAkkn6pnvRk-JbYRWtCU)**
 
@@ -931,6 +1004,7 @@ We find no consistent difference in the number of colors. On most graphs, the nu
         <td>213,904</td>
     </tr>
 </table>
+
 ### 4.5 Block Size
 
 #### 4.5.1 Block Size in Vertex-Based Algorithms
@@ -1057,3 +1131,4 @@ Shared or joint:
 - Edge Removal Optimization
 - Report writing (analysis shared, but most prose written by Ben)
 - Poster creation
+
