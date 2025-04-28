@@ -1,3 +1,7 @@
+---
+full-width: true
+---
+
 # Final Report
 
 ## 1. Summary
