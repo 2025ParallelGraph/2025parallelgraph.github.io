@@ -385,7 +385,7 @@ We find that with the fixed forbidden optimization, overall runtime and per-iter
         <td style="font-style: italic">artist</td>
         <td>0.00395</td>
         <td>0.00254</td>
-        <td>4.00000</td>
+        <td>4</td>
         <td>6</td>
         <td>0.00099</td>
         <td>0.00042 </td>
@@ -394,7 +394,7 @@ We find that with the fixed forbidden optimization, overall runtime and per-iter
         <td style="font-style: italic">audikw</td>
         <td>0.04135</td>
         <td>0.03854</td>
-        <td>3.00000</td>
+        <td>3</td>
         <td>4</td>
         <td>0.01378</td>
         <td>0.00964 </td>
@@ -403,7 +403,7 @@ We find that with the fixed forbidden optimization, overall runtime and per-iter
         <td style="font-style: italic">bump</td>
         <td>0.09074</td>
         <td>0.09722</td>
-        <td>3.00000</td>
+        <td>3</td>
         <td>3</td>
         <td>0.03025</td>
         <td>0.03241 </td>
@@ -421,7 +421,7 @@ We find that with the fixed forbidden optimization, overall runtime and per-iter
         <td style="font-style: italic">facebook</td>
         <td>0.00487</td>
         <td>0.00372</td>
-        <td>56.00000</td>
+        <td>56</td>
         <td>42</td>
         <td>0.000087</td>
         <td>0.000088 </td>
@@ -445,6 +445,7 @@ We find that with the fixed forbidden optimization, overall runtime and per-iter
         <td>0.08525</td>
     </tr>
 </table>
+
 We find that on most graphs, a majority of runtime is spent in `DetectConflicts`. We further find that on *hollywood* and *kron_g500*, `AssignColors` dominates by a large margin. Notice that in both of these graphs, the number of colors is high, meaning that `AssignColors` must iterate through many color sets in order to find colors, which may explain why `AssignColors` dominates the runtime on these graphs.
 
 ![image-20250427235128360](assets/image-20250427235128360.png)
@@ -565,33 +566,23 @@ Because the forbidden list was stored in global memory in the edge-based algorit
         <td>0.08525 </td>
     </tr>
 </table>
-![image-20250428002305377](assets/image-20250428002305377.png)
-
-**Figure**: Computation time with the Color Set optimization. (a) shows time split between different steps; (b) compares computation time with and without the Color Set optimization.
-
 We found that on most graphs, a majority of runtime is spent in `ForbidColors` just as in the unoptimized algorithm.
+
+<img src="assets/image-20250428092009035.png" alt="image-20250428092009035" style="zoom: 50%;" />
+
+**Figure**: time split between different steps with the Color Set optimization.
 
 The number of colors did not significantly change with the color set optimization applied.
 
-Table: Number of Colors between the Results Produced with and without the Color-Set Optimization
+![image-20250428092730594](assets/image-20250428092730594.png)
 
-|             | Unoptimized | Color Set |
-| ----------- | ----------- | --------- |
-| *artist*    | 38          | 38        |
-| *audikw*    | 69          | 50        |
-| *bump*      | 38          | 32        |
-| *facebook*  | 87          | 87        |
-| *hollywood* | 2,209       | 2,209     |
-| *circuit5M* | N/A         | 9         |
-| *kron_g500* | N/A         | 670       |
-
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXcz1NC9lXywjdibgKkz3-z-4ssgmxnOPK_9G7BKHEhZ2MpKFIUhVM3pHGXtXnMA6LG4jEuNeCo9SzlUmkJl22C8gZTeBBwol9nw8yuKbQtFyCRPVE5PcRpP73VjOWIxs5tkdKpE?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+**Figure**: comparison between algorithm with and without the Color Set optimization. (a) compares computation time; (b) compares number of colors.
 
 #### 4.3.3 Tentative Coloring Optimization
 
-Using tentative coloring generally resulted in decreased runtime. This decrease in runtime is clearly ascribable to a decrease in the number of iterations. As shown in charts below, the number of iterations was significantly smaller when using tentative optimization on most graphs. This can be attributed to the fact that with the tentative coloring optimization AssignColor will apply a solid color to tentatively colored vertices, resulting in vertices getting colored at an earlier point than they otherwise would be.
+Using tentative coloring generally resulted in decreased runtime. This decrease in runtime is clearly ascribable to a decrease in the number of iterations. As shown in charts below, the number of iterations was significantly smaller when using tentative optimization on most graphs. This can be attributed to the fact that with the tentative coloring optimization `AssignColor` will apply a solid color to tentatively colored vertices, resulting in vertices getting colored at an earlier point than they otherwise would be.
 
-Nonetheless, tentative coloring did increase the time per iteration. We found this rise could be ascribed to time spent in the TentativeColor kernel. We found that the computation time per iteration spent outside of TentativeColor did not change significantly with the tentative coloring optimization.
+Nonetheless, tentative coloring did increase the time per iteration. We found this rise could be ascribed to time spent in the `TentativeColor` kernel. We found that the computation time per iteration spent outside of `TentativeColor` did not change significantly with the tentative coloring optimization.
 
 <table>
     <tr>
@@ -690,111 +681,19 @@ Nonetheless, tentative coloring did increase the time per iteration. We found th
         <td>68</td>
     </tr>
 </table>
-<table>
-    <tr>
-        <td></td>
-        <td colspan="2" align="center" style="font-weight: bold">Time / Iter (ms)</td>
-        <td colspan="2" align="center" style="font-weight: bold">Non-TentativeColor Time / Iter (ms)</td>
-        <td colspan="2" align="center" style="font-weight: bold">TentativeColor Time /Iter (ms)</td>
-        <td colspan="2" align="center" style="font-weight: bold">Iterations</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Color Set</td>
-        <td>Tentative</td>
-        <td>Color Set</td>
-        <td>Tentative</td>
-        <td>Color Set</td>
-        <td>Tentative</td>
-        <td>Color Set</td>
-        <td>Tentative </td>
-    </tr>
-    <tr>
-        <td style="font-style: italic">artist</td>
-        <td>0.20398</td>
-        <td>0.30494</td>
-        <td>0.20398</td>
-        <td>0.28643</td>
-        <td>\</td>
-        <td>0.0185</td>
-        <td>42</td>
-        <td>23 </td>
-    </tr>
-    <tr>
-        <td style="font-style: italic">audikw</td>
-        <td>36.51765</td>
-        <td>58.85417</td>
-        <td>36.51765</td>
-        <td>32.19400</td>
-        <td>\</td>
-        <td>26.6602</td>
-        <td>51</td>
-        <td>12 </td>
-    </tr>
-    <tr>
-        <td style="font-style: italic">bump</td>
-        <td>131.90125</td>
-        <td>215.89111</td>
-        <td>131.90125</td>
-        <td>124.76489</td>
-        <td>\</td>
-        <td>91.1262</td>
-        <td>32</td>
-        <td>9 </td>
-    </tr>
-    <tr>
-        <td style="font-style: italic">circuit5M</td>
-        <td>44.13744</td>
-        <td>78.37925</td>
-        <td>44.13744</td>
-        <td>46.12950</td>
-        <td>\</td>
-        <td>32.2498</td>
-        <td>9</td>
-        <td>4 </td>
-    </tr>
-    <tr>
-        <td style="font-style: italic">facebook</td>
-        <td>0.06503</td>
-        <td>0.07847</td>
-        <td>0.06503</td>
-        <td>0.06539</td>
-        <td>\</td>
-        <td>0.0131</td>
-        <td>89</td>
-        <td>19 </td>
-    </tr>
-    <tr>
-        <td style="font-style: italic">hollywood</td>
-        <td>31.85171</td>
-        <td>57.96183</td>
-        <td>31.85171</td>
-        <td>32.09065</td>
-        <td>\</td>
-        <td>25.8712</td>
-        <td>2278</td>
-        <td>186 </td>
-    </tr>
-    <tr>
-        <td style="font-style: italic">kron_g500</td>
-        <td>63.66173</td>
-        <td>103.76809</td>
-        <td>63.66173</td>
-        <td>61.87618</td>
-        <td>\</td>
-        <td>41.8919</td>
-        <td>682</td>
-        <td>68</td>
-    </tr>
-</table>
+![image-20250428103302446](assets/image-20250428103302446.png)
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdK2BGd2cQhF65pZzA6rO-zsd3MoxNf-2OwCGXTh0S51iIg7o7_qs6LSueoXJzi-tv1_-FGpeUSb9cva2IpSO10v-jLDLQ5fD-AhJujHHYF45Mmk7R8gQAUEhBfpGfTxX9nMj_X8A?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+**Figure**: comparison between non-`TentativeColor` time per iteration between the Color-Set algorithm and the optimized Tentative-Color algorithm.
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXftYUNfR8cKJ1u3yTmWDkoOMG90tc89kJIcasQXT1mv7R929TD6t-ilgXAUU-YWx2z_W2s4wUFeVkpNchyPyf9b_N-u9C62A43vNlnC-OuMu5XJKN4_g415d_ORmh6HWmVioX99pw?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+![image-20250428093734249](assets/image-20250428093734249.png)
+
+**Figure**: time split between different steps with the Tentative-Color optimization.
 
 Although the Tentative Color Optimization reduces the total computational time, it has no significant effect on the number of colors.
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXem0snurr1bo75x_PYC2EokYhVHkQov7QcrotvZ-2gFxC6SKC4a1kVTaoRtx_saH-3I6hvyaEBaJ03Zp8iA6x0CscoCl9ZDyLrHGmcRQp4DxAV_crc3ovzk_MRhpchiVd8NjEBkjg?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+![image-20250428094702482](assets/image-20250428094702482.png)
+
+**Figure**: comparison between algorithm with and without the Tentative-Color optimization. (a) compares computation time; (b) compares number of colors.
 
 #### 4.3.4 Edge Removal Optimization
 
@@ -889,6 +788,8 @@ Note that the data in the charts below were collected with Nsight Compute and so
 
 ![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXd5ZNZhxtZdgG-vYVoqQKQPZ8-YanRlITZGHwKEUWZEbp27W4QyHAVB3a39CpT1RzB8LJf1cwI3gYBfeUmq70IjzVnpu2x3xHHbSWLujFEg49pJXULZ_lrivpt-slca6qh1Cmz3EQ?key=z3F8mAkkn6pnvRk-JbYRWtCU)
 
+
+
 ![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXf2EoSxjW49_C96xB1_OCjIl-O8YPxs5riPPVsTBUBmJL1C3IKGV0P2eAq8LlbQsC6qJUIyRFdYLFekJgl1_JDImclEI7rru37uB0nF3RNNBIjvRO8VJNSt2QjJCF8K0vOPM1DxfA?key=z3F8mAkkn6pnvRk-JbYRWtCU)
 
 ![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXcvZgEtk47XE_U8IWfkhh30G353iN30OkSE7gz_3y7R9LyRCO51PqPX3xdbVTCgppey5PRmWDsxKx-cya9zCn651eLL30vceHulNBP_uQs49kLmkheKrv7Mzd0XzeDwQjp_s5yq?key=z3F8mAkkn6pnvRk-JbYRWtCU)
@@ -905,15 +806,11 @@ We found that edge-based graph coloring consistently used more iterations than v
 
 We noticed that the time per iteration correlated strongly with the max degree. The only graphs where the edge-based algorithm had lower time per iteration than the vertex-based algorithm were the graphs with the lowest max degrees. Recall that in vertex-based algorithms, threads must iterate through all neighbors of a vertex. This means that a single vertex with many neighbors can slow down the entire iteration. So it follows that graphs with high maximum degrees have high runtime on each iteration.
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXeJNKmpWQi6IeB-mARM91IqaCV-nuDpdwQ1hIXeFSyqREb5xA8qsH1j-R6kQha0h1jfnxzfhliid8TWBanVP5cDluq6SsJ4yPx8C7N89qL1q15SIgTG0Cpxb3bb_1JDFjhgS2eocA?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+![image-20250428111125094](assets/image-20250428111125094.png)
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXcv4iwFsTn--7YNDZMH1K1xPloq5BLOOwBphPM0fgLZqCdcX-s00oq9J6g_qziW411Kuvw9yuKg61VrzAWIs24ZhgDsYb-Hp3BQS4farJlmLzfo44-v2FpCwR27eoMHL_r2_mCspQ?key=z3F8mAkkn6pnvRk-JbYRWtCU)
-
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXcNvRLKnjci4jaQAivFHoLvjWBiiiKt7gOf-WDzmHRsw1LBeMvXF7mpTBXpDc0aInRs4NUrvb3LfEdyD9hAfTRQZ6_SLbuSkM7L7dN9D1ACpbusJO8q-1l6kHmmkgdcpAzx2JYU?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+**Figure**: Comparison between optimized vertex-based and edge-based algorithms. (a) compares the number of iterations to converge; (b) compares the total computation time; (c) compares the computation time per iteration; (d) compares the number of colors in the output graphs.
 
 We find no consistent difference in the number of colors. On most graphs, the numbers of colors are similar. The exceptions are circuit5M where edge-based coloring doubles the number of colors and *kron_g500* where vertex based coloring increases the number of colors significantly.
-
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXc5leoW97z8N9GhfMZN1x-tO212SDLTTIzDYlJYxVLnFkBXTgU0oDMbAU0T-Ca8mOqCKcK1H8OUTToLTceU1ArGfLaNpagFlm7KxrvGHVrwcygcyBaAzidcFo9nQ2cdFlXWt16q?key=z3F8mAkkn6pnvRk-JbYRWtCU)
 
 <table>
     <tr>
