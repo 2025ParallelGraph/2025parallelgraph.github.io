@@ -445,14 +445,15 @@ We find that with the fixed forbidden optimization, overall runtime and per-iter
         <td>0.08525</td>
     </tr>
 </table>
-
 We find that on most graphs, a majority of runtime is spent in `DetectConflicts`. We further find that on *hollywood* and *kron_g500*, `AssignColors` dominates by a large margin. Notice that in both of these graphs, the number of colors is high, meaning that `AssignColors` must iterate through many color sets in order to find colors, which may explain why `AssignColors` dominates the runtime on these graphs.
 
-**![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXfkJ_LulMqmtRVOICchJB6gQFcfQUF4GQc-G50twl6bm5H4FYl4hRtsc17ZZruVAAsECOtgAuOG4498LbNd_f7_j-F6vqiWQdiffF_p-UN7-wn0mtzy0_ZKko5PsvoUSYzRVaEnng?key=z3F8mAkkn6pnvRk-JbYRWtCU)**
+![image-20250427235128360](assets/image-20250427235128360.png)
+
+**Figure**: time split with the Fixed Forbidden optimization.
 
 We find no significant difference in the number of colors between the results produced with and without the fixed forbidden optimization.
 
-Table: Number of Colors between the Results Produced with and without the Fixed Forbidden Optimization
+**Table**: Number of Colors between the Results Produced with and without the Fixed Forbidden Optimization
 
 |             | Unoptimized | Fixed Forbid |
 | ----------- | ----------- | ------------ |
@@ -470,11 +471,11 @@ Table: Number of Colors between the Results Produced with and without the Fixed 
 
 As detailed in the subsequent sections, the unoptimized edge-based algorithm has significant issues. This includes the inability to run it on some large graphs on the GHC machines due to high memory requirements.
 
-We find that on most graphs, a majority of the runtime is taken up by ForbidColors.
+We find that on most graphs, a majority of the runtime is taken up by `ForbidColors`.
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXfjywxOPUqVcxJ3zmXld0qE5hzB7ZXuioUzdQIa4yWoifhOQ7sgYlbxZIBkR58ZJFs6y9rFtIfdHH4iEb9UKrB9jUvgDC7-BWmXa-HPbGEjCw9WfNvBn_TAUvmReD1CNGxanml6vA?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+![image-20250428000232946](assets/image-20250428000232946.png)
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXewjBXdQZp6zzm_A2cSaSoe9zokqwzEldpI0zA1We6ypQEKAKgbn62liiyLiQE6g4ta4v702Aomqb7GNr8SPsxu30xnS-_DZvvZwmCFlLrCclLwG5L5I77DKGbX89fcjfoyV5LZ?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+**Figure**: Computation time with unoptimized edge-based algorithm (a) shows time split between different steps; (b) shows total computation time.
 
 See subsequent sections for further analysis of runtime and the number of colors used.
 
@@ -564,13 +565,11 @@ Because the forbidden list was stored in global memory in the edge-based algorit
         <td>0.08525 </td>
     </tr>
 </table>
+![image-20250428002305377](assets/image-20250428002305377.png)
 
-
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXeEitlaeTr6hLUASI005c1mf4P80mRStz4JWR2rn3SZdNHsIDFrAUW4qQjlk9A0m--tKjPoy28rocJPDMjtLd61C0ZtjRc5755YIy-euNeQ2L0P0RpV3elFjqbW2La80E2jlfXUEg?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+**Figure**: Computation time with the Color Set optimization. (a) shows time split between different steps; (b) compares computation time with and without the Color Set optimization.
 
 We found that on most graphs, a majority of runtime is spent in `ForbidColors` just as in the unoptimized algorithm.
-
-**![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXcEgBghy_JsLXAvg0ulEBB28X_RmDehmocoGLQ5mcQU7zwVJmbmVySgZBzDDYSs-LO63Nfb_GO_Sr7b7cYt5v8aqeJI_st0vB3dn6DkrR4IgIbQLA4tfzq1yOGQNUpsB1b12KY__w?key=z3F8mAkkn6pnvRk-JbYRWtCU)**
 
 The number of colors did not significantly change with the color set optimization applied.
 
