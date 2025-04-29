@@ -1,5 +1,10 @@
 # Final Report
 
+Group Members:
+
+- Benjamin Lash (andrew id: blash)
+- Deming Chen (andrew id: demingc)
+
 ## 1. Summary
 
 We implement two parallel graph coloring algorithms and optimizations thereto from [1]. These algorithms are designed for manycore architectures and we implement them on a GPU.
@@ -349,7 +354,7 @@ As detailed in subsequent sections, the unoptimized vertex-based algorithm has s
 
 We find that a majority of runtime is spent in `DetectConflicts` on all tested graphs.
 
-![image-20250427224432445](assets/image-20250427224432445.png)
+<img src="assets/image-20250427224432445.png" alt="image-20250427224432445" style="zoom: 40%;" />
 
 **Figure**: Computation time of unoptimized vertex-based algorithm on 4 graphs. The left one shows time split between `DetectConflicts` and `AssignColors`; the right one shows the total computation time.
 
@@ -359,7 +364,7 @@ Without the fixed forbidden optimization, memory errors prevented us from proces
 
 We find that with the fixed forbidden optimization, overall runtime and per-iteration runtime is generally smaller. Recall that without the fixed forbidden optimization, threads must iterate through a long list of forbidden colors. We speculate that the lack of need to iterate through these colors when the fixed forbidden optimization is applied reduces runtime. 
 
-![image-20250427225431569](assets/image-20250427225431569.png)
+<img src="assets/image-20250427225431569.png" alt="image-20250427225431569" style="zoom: 45%;" />
 
 **Figure**: Comparison between the total computation time with and without the Fixed Forbidden optimization.
 
@@ -448,7 +453,7 @@ We find that with the fixed forbidden optimization, overall runtime and per-iter
 
 We find that on most graphs, a majority of runtime is spent in `DetectConflicts`. We further find that on *hollywood* and *kron_g500*, `AssignColors` dominates by a large margin. Notice that in both of these graphs, the number of colors is high, meaning that `AssignColors` must iterate through many color sets in order to find colors, which may explain why `AssignColors` dominates the runtime on these graphs.
 
-![image-20250427235128360](assets/image-20250427235128360.png)
+<img src="assets/image-20250427235128360.png" alt="image-20250427235128360" style="zoom: 40%;" />
 
 **Figure**: time split with the Fixed Forbidden optimization.
 
@@ -568,7 +573,7 @@ Because the forbidden list was stored in global memory in the edge-based algorit
 </table>
 We found that on most graphs, a majority of runtime is spent in `ForbidColors` just as in the unoptimized algorithm.
 
-<img src="assets/image-20250428092009035.png" alt="image-20250428092009035" style="zoom: 50%;" />
+<img src="assets/image-20250428092009035.png" alt="image-20250428092009035" style="zoom: 45%;" />
 
 **Figure**: time split between different steps with the Color Set optimization.
 
@@ -681,11 +686,11 @@ Nonetheless, tentative coloring did increase the time per iteration. We found th
         <td>68</td>
     </tr>
 </table>
-![image-20250428103302446](assets/image-20250428103302446.png)
+<img src="assets/image-20250428103302446.png" alt="image-20250428103302446" style="zoom: 50%;" />
 
 **Figure**: comparison between non-`TentativeColor` time per iteration between the Color-Set algorithm and the optimized Tentative-Color algorithm.
 
-![image-20250428093734249](assets/image-20250428093734249.png)
+<img src="assets/image-20250428093734249.png" alt="image-20250428093734249" style="zoom: 50%;" />
 
 **Figure**: time split between different steps with the Tentative-Color optimization.
 
@@ -780,23 +785,23 @@ Our edge removal optimization resulted in a significant decrease in runtime. Whi
 </table>
 We find that the most of the runtime is spent in `CreateNewEdgeList`, `TentativeColor`, and `ForbidColors`.
 
-**![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXd7CeqNOkdgfn8cOsfyP2HjUdxnFGXRF0tvbLRW1QXG63fYLkpGL8_A93i4tU6ijqlBu0uAE4MAns-Fj8259TiYTpZy6ZL8aAb2dCLQPNVq35jUv_F_HJdgh0CreLiQqlwJX2Pv2Q?key=z3F8mAkkn6pnvRk-JbYRWtCU)**
+<img src="assets/AD_4nXc6jJ42_H4NrVt8aHUU3-_eJxQwVWxSEi81Zz-fFpXWuVnhUL-kXffErsltF56WNyt-RI-6pSyNGAJAsyRagZG9cdUN34TR1vXBg23velwktxuPSdqrOpb_n7Y5MJverdftBVclPQ.png" alt="Chart" style="zoom:45%;" />
+
+**Figure**: time split between different steps with the Edge-Removal optimization.
 
 To investigate this difference in runtime, we run the algorithm with and without the edge-removal optimization on the *kron_g500* graph and profile `orbidColors` with Nsight Compute. We find the difference in runtime is due to the fact that without the edge removal optimization, there are far more threads than the GPU can run simultaneously. Notice that with and without the edge removal optimization, the number of active warps per SM stays approximately the same through most iterations. But the total number of edges in the edge list and therefore the total number of warps, plummets when the edge removal optimization is applied after only the first few iterations. Since the number of active warps is the same in both algorithms but the total number of warps is much less with the edge removal optimization, it takes significantly fewer cycles to complete the work in all blocks. 
 
 Note that the data in the charts below were collected with Nsight Compute and so the runtimes significantly are inflated due to overhead from profiling.
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXd5ZNZhxtZdgG-vYVoqQKQPZ8-YanRlITZGHwKEUWZEbp27W4QyHAVB3a39CpT1RzB8LJf1cwI3gYBfeUmq70IjzVnpu2x3xHHbSWLujFEg49pJXULZ_lrivpt-slca6qh1Cmz3EQ?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+![image-20250428223035367](assets/image-20250428223035367.png)
 
+**Figure**: GPU runtime detail data in each iteration between the Tentative algorithm and the Edge-Removal optimization. (a) shows the time on `AssignColors`; (b) shows the active warps per SM; (c) shows the number of blocks.
 
+As shown in the figure below, the edge removal optimization lead to no significant change in the number of colors.
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXf2EoSxjW49_C96xB1_OCjIl-O8YPxs5riPPVsTBUBmJL1C3IKGV0P2eAq8LlbQsC6qJUIyRFdYLFekJgl1_JDImclEI7rru37uB0nF3RNNBIjvRO8VJNSt2QjJCF8K0vOPM1DxfA?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+<img src="assets/image-20250428223937769.png" alt="image-20250428223937769" style="zoom:50%;" />
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXcvZgEtk47XE_U8IWfkhh30G353iN30OkSE7gz_3y7R9LyRCO51PqPX3xdbVTCgppey5PRmWDsxKx-cya9zCn651eLL30vceHulNBP_uQs49kLmkheKrv7Mzd0XzeDwQjp_s5yq?key=z3F8mAkkn6pnvRk-JbYRWtCU)
-
-The edge removal optimization lead to no significant change in the number of colors
-
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXcG5yY0y56DUBltF1_AURRugDfYkeiznqb6EYIT_Hg8b9vCSrB3fLVehTBkhjW7w9fuhVB_0TJ4DMIXUjis61ldSnm0iqFp5cxUt6nkkTQ_mRr4kPnkLnfZTWW57lu7e_0aQycXlQ?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+**Figure**: number of colors with and without the Edge-Removal optimization.
 
 ### 4.4 Edge-Based and Vertex-Based Algorithms Compared
 
@@ -913,13 +918,11 @@ For many other graphs, the per-iteration runtime increases until reaching a bloc
 
 On graphs with high variance in the number of neighbors per vertex, runtime is likely to increase with block size in the range [1, 32]. But on graphs with little variance in the number of neighbors per vertex, the opposite happens.
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXeVB7xzcuHOgkjiPHxqVmORbbFH3nYE3sBH7sTFlB-4cEpHTSLa_hZXJH4WkpHHiuROsSRT3jFnYIKtn9UE5X_MxuLJrj4dNYVxe-6iSWAZFSykAjy3Z9mkmL95SRIPfzIuKJv48g?key=z3F8mAkkn6pnvRk-JbYRWtCU)
-
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXf43qkUMiKrXWZnUMZZwkBdPLPdATZl75aWoEtVzNYrt3GeNifRMtcVVOaTucwZD_cS6gKAx9zgLNjOOdxE8O4jJrV32DkZKvd0p1frkIzDL0S0qHAKzJxC3nAnXUr-YGvPUq5d2A?key=z3F8mAkkn6pnvRk-JbYRWtCU)
-
 There is a consistent trend across many but not all graphs of increasing iteration count in the block size range [1, 32]. Recall that conflicts only happen during `AssignColors` in vertex-based algorithms because threads that handle neighboring vertices simultaneously or near-simultaneously apply their colors without observing the color change in the neighboring vertex. We suspect that by limiting warp size, we limit parallelism, decreasing the number of conflicts, and therefore reducing the number of vertices in the conflict list and so also reducing the number of iterations.
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXcTnwwk6BTFPUgpAuDkg4IEqXdyboXnPTiFZmuIg11l47mlm6BN3DtOtnUKU_rzSVdwWDC7fwU8laD3RrQH6Aby7Jyc9GxUnwzSkaRYiX1hMGCCo76OqYhdLhCdX5a8InLa9fmH2A?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+![image-20250428150115168](assets/image-20250428150115168.png)
+
+**Figure**: comparison between different block size with the Fixed-Forbidden optimization. (a) compares computation time; (b) compares computation time per iteration; (c) compares number of iterations to converge.
 
 #### 4.5.2 Block Size in Edge-Based Algorithms
 
@@ -929,11 +932,9 @@ Notice that the time per iteration decreases until it hits a block size of 32 be
 
 We also note the number of iterations does not change as dramatically as runtime on most graphs but on some graphs, it does increase with block size until a block size of 32, beyond which it plateaus.
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXd37XGt29-DaZC259LD0ETLpxAq1QcdMu3chOOP7D7mGciVjbm7eQirqGyJ2T6wp0gUGLoGBGJfN1urE_PTwXySKUnuuvShqq-tb4aalSlKJQeIpwYGLaQyE45K-TagJAbqdXl3DQ?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+![image-20250428214732431](assets/image-20250428214732431.png)
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXfYEyaDcdScPymoLLs8VsaHQA6dNDvpZsfjgGasxKqHd4TLQDb8QCJj_KjZkQc6PLyRaYbrKwNItaCAd8wYkbeJxtzezib286gBkrhSEIFxRcVbDW2DVWvQPtF83yZCdS-zHDeJZQ?key=z3F8mAkkn6pnvRk-JbYRWtCU)
-
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXeC3BcOHzW5sgGSP9bPFXmA35Ff0vNFAlsBVRIfnSmXheycigHpyxWVPckfo8f3FrUfYAXsJ0vLR_pKlng0nflNndjVlzs2dWJgXNXle8mO8BzlrKWHBrmsoo4Bj6l7EGxkSj8zGQ?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+**Figure**: comparison between different block size with the Edge-Removal optimization. (a) compares computation time; (b) compares computation time per iteration; (c) compares number of iterations to converge.
 
 ### 4.6 Limitations of Optimized Algorithms
 
@@ -943,7 +944,9 @@ The fully optimized edge based algorithm still has limitations. The primary one 
 
 See for example, the active warps per SM on *kron_g500*. The maximum number of warps per SM is 32. Notice that in the early iterations, occupancy stays high but in the last iterations, the occupancy plummets because the number of edges remaining in the edge list is small.
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXfsWTnTUo7ktDFb1e7IM3BIrm6itkPuBTMVC2FsBz7syrbhqWYk2zxDSf9x97PBM2yjzB8sjan6wfXXVuWCYYHx3tZSCWRkoArVbC2mQLurG8fKDfHzaaNkNB2R_MV0tLLkvuvGBw?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+<img src="assets/image-20250428215219163.png" alt="image-20250428215219163" style="zoom: 50%;" />
+
+**Figure**: the active warps per SM by iterations on graph *kron_g500*. Occupancy decreases in the last iterations.
 
 #### 4.6.2 Limitations of Optimized Vertex-Based Algorithm
 
@@ -953,9 +956,9 @@ But we notice that the issue is much more extreme on the vertex-based algorithm.
 
 This combined with our finding that the vertex-based algorithm generally performs best with a block size of 1 indicates that the vertex-based algorithm is poorly suited to a GPU. Ideally, when running on a GPU, one should saturate computing units so that the hardware is used efficiently but the vertex-based algorithm fails here.
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdTqpIOdRZohOSNKKY2bNcIW0ZDrg7FOqcgX281pmq_DsLzlAcnXiiVxQk7UKIKxcfW5YYf3jue7AIHklgYHnFgz_Oo8ZB-Jc1WXdzDTWlqeo86v2ai08CeTHC6nY7rWr_oI0vYEA?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+![image-20250428220845696](assets/image-20250428220845696.png)
 
-![Chart](https://lh7-rt.googleusercontent.com/docsz/AD_4nXd3BcoNNTXJP_QEaRfZ2uOS2u8czvgdxKvPsxMZ-crgClLKNnjga1Jb7twahX-rxwvU23HBsOcsC2fZbC20DLEP6QAXW51_6mkTBQEf0Faf-zEsG9c-kEvgue-LMcKiVsf4PqrSAw?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+**Figure**: GPU runtime data by iteration on graph `kron_g500` using the Fixed-Forbid Optimization. (a) shows the active warps per SM vs iteration; (b) shows the number of blocks vs iteration.
 
 ## References
 
@@ -971,30 +974,194 @@ This combined with our finding that the vertex-based algorithm generally perform
 
 In the original `AssignColor` algorithm from [1], array `VForbidden` is reset only when it has bits set to zero when we could not find an available color. We find it incorrect.
 
-![img](https://lh7-rt.googleusercontent.com/docsz/AD_4nXcM6I5sugYu8yWqD_zMhtFC_oqGm2DrZllhI2ckjbgHcvh6_EAnK8354Jchs5_fieEw4iiPUcYFxSRpVPqAW4NWXrta9r8sv2rVFIbdriEvWQlgZQGlmb7vvAKE32m4VDXGb3hTMQ?key=z3F8mAkkn6pnvRk-JbYRWtCU)
+<img src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXcM6I5sugYu8yWqD_zMhtFC_oqGm2DrZllhI2ckjbgHcvh6_EAnK8354Jchs5_fieEw4iiPUcYFxSRpVPqAW4NWXrta9r8sv2rVFIbdriEvWQlgZQGlmb7vvAKE32m4VDXGb3hTMQ?key=z3F8mAkkn6pnvRk-JbYRWtCU" alt="img" style="zoom: 33%;" />
 
-Consider the following example. Here, we set the size of a color set to be 2, so we only show 2 bits in VForbidden and TentativeVForbidden, and 3 bits in colors.
+Consider the following example. Here, we set the size of a color set to be 2, so we only show 2 bits in `VForbidden` and `TentativeVForbidden`, and 3 bits in colors.
 
-| Iteration                    | Stage                     | Vertices |         |         |         |         |         |      |
-| ---------------------------- | ------------------------- | -------- | ------- | ------- | ------- | ------- | ------- | ---- |
-| 0                            | 1                         | 2        | 3       | 4       | 5       | 6       |         |      |
-| 1                            | Colors after assignColors | 0-1      | 0-1     | 0-1     | 0-1     | 0-1     | 0-1     | 0-1  |
-| Colors after detectConflicts | 0-0                       | 0-0      | 0-0     | 0-0     | 0-0     | 0-0     | 0-1     |      |
-| vForbidden                   | 0b00                      | 0b00     | 0b00    | 0b00    | 0b00    | 0b01    | \       |      |
-| TentativeVForbidden          | 0b01                      | 0b01     | 0b01    | 0b01    | 0b10    | 0b01    | \       |      |
-| Colors after TentativeColor  | 0-0b000                   | 0-0b101  | 0-0b101 | 0-0b101 | 0-0b101 | 0-0b110 | 0-0b001 |      |
-| 2                            | Colors after assignColors | 0-2      | 0-1     | 0-1     | 0-1     | 0-1     | 0-2     | 0-1  |
-| Colors after detectConflicts | 0-2                       | 0-0      | 0-0     | 0-0     | 0-1     | 0-2     | 0-1     |      |
-| vForbidden                   | \                         | 0b11     | 0b01    | 0b11    | \       | \       | \       |      |
-| TentativeVForbidden          | \                         | 0b10     | 0b00    | 0b00    | \       | \       | \       |      |
-| Colors after TentativeColor  | 0-0b010                   | 0-0b000  | 0-0b110 | 0-0b100 | 0-0b001 | 0-0b010 | 0-0b001 |      |
-| 3                            | Colors after assignColors | 0-2      | 0-0     | 0-2     | 0-0     | 0-1     | 0-2     | 0-1  |
-| Colors after detectConflicts | 0-2                       | 0-0      | 0-2     | 0-0     | 0-1     | 0-2     | 0-1     |      |
-| vForbidden                   | \                         | 0b11     | \       | 0b11    | \       | \       | \       |      |
-| TentativeVForbidden          | \                         | 0b10     | \       | 0b00    | \       | \       | \       |      |
-| Colors after TentativeColor  | 0-0b010                   | 0-0b000  | 0-0b010 | 0-0b100 | 0-0b001 | 0-0b010 | 0-0b001 |      |
-| 4                            | Colors after assignColors | 0-2      | 0-0     | 0-2     | 0-0     | 0-1     | 0-2     | 0-1  |
+<img src="assets/image-20250428230837315.png" alt="image-20250428230837315" style="zoom:33%;" />
 
+The following tables shows details of each iteration, including the color, `vForbidden` array, `TentativeVForbidden` array for each vertex. For a color, `X-Y` refers to the `Y`-th color in the color set `X`.
+
+<table>
+    <tr>
+        <td rowspan="2" align="center" valign="center" style="font-weight: bold">Iteration</td>
+        <td rowspan="2" align="center" valign="center" style="font-weight: bold">Stage</td>
+        <td colspan="7" align="center" valign="center" style="font-weight: bold">Vertices</td>
+    </tr>
+    <tr>
+        <td>0</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6 </td>
+    </tr>
+    <tr>
+        <td rowspan="5" align="center" valign="center" style="font-weight: bold">1</td>
+        <td>Colors after assignColors</td>
+        <td>0-1</td>
+        <td>0-1</td>
+        <td>0-1</td>
+        <td>0-1</td>
+        <td>0-1</td>
+        <td>0-1</td>
+        <td>0-1 </td>
+    </tr>
+    <tr>
+        <td>Colors after detectConflicts</td>
+        <td>0-0</td>
+        <td>0-0</td>
+        <td>0-0</td>
+        <td>0-0</td>
+        <td>0-0</td>
+        <td>0-0</td>
+        <td>0-1 </td>
+    </tr>
+    <tr>
+        <td>vForbidden</td>
+        <td>0b00</td>
+        <td>0b00</td>
+        <td>0b00</td>
+        <td>0b00</td>
+        <td>0b00</td>
+        <td>0b01</td>
+        <td>\ </td>
+    </tr>
+    <tr>
+        <td>TentativeVForbidden</td>
+        <td>0b01</td>
+        <td>0b01</td>
+        <td>0b01</td>
+        <td>0b01</td>
+        <td>0b10</td>
+        <td>0b01</td>
+        <td>\ </td>
+    </tr>
+    <tr>
+        <td>Colors after TentativeColor</td>
+        <td>0-0b000</td>
+        <td>0-0b101</td>
+        <td>0-0b101</td>
+        <td>0-0b101</td>
+        <td>0-0b101</td>
+        <td>0-0b110</td>
+        <td>0-0b001 </td>
+    </tr>
+    <tr>
+        <td rowspan="5" align="center" valign="center" style="font-weight: bold">2</td>
+        <td>Colors after assignColors</td>
+        <td>0-2</td>
+        <td>0-1</td>
+        <td>0-1</td>
+        <td>0-1</td>
+        <td>0-1</td>
+        <td>0-2</td>
+        <td>0-1 </td>
+    </tr>
+    <tr>
+        <td>Colors after detectConflicts</td>
+        <td>0-2</td>
+        <td>0-0</td>
+        <td>0-0</td>
+        <td>0-0</td>
+        <td>0-1</td>
+        <td>0-2</td>
+        <td>0-1 </td>
+    </tr>
+    <tr>
+        <td>vForbidden</td>
+        <td>\</td>
+        <td>0b11</td>
+        <td>0b01</td>
+        <td>0b11</td>
+        <td>\</td>
+        <td>\</td>
+        <td>\ </td>
+    </tr>
+    <tr>
+        <td>TentativeVForbidden</td>
+        <td>\</td>
+        <td>0b10</td>
+        <td>0b00</td>
+        <td>0b00</td>
+        <td>\</td>
+        <td>\</td>
+        <td>\ </td>
+    </tr>
+    <tr>
+        <td>Colors after TentativeColor</td>
+        <td>0-0b010</td>
+        <td>0-0b000</td>
+        <td>0-0b110</td>
+        <td>0-0b100</td>
+        <td>0-0b001</td>
+        <td>0-0b010</td>
+        <td>0-0b001 </td>
+    </tr>
+    <tr>
+        <td rowspan="5" align="center" valign="center" style="font-weight: bold">3</td>
+        <td>Colors after assignColors</td>
+        <td>0-2</td>
+        <td>0-0</td>
+        <td>0-2</td>
+        <td>0-0</td>
+        <td>0-1</td>
+        <td>0-2</td>
+        <td>0-1 </td>
+    </tr>
+    <tr>
+        <td>Colors after detectConflicts</td>
+        <td>0-2</td>
+        <td>0-0</td>
+        <td>0-2</td>
+        <td>0-0</td>
+        <td>0-1</td>
+        <td>0-2</td>
+        <td>0-1 </td>
+    </tr>
+    <tr>
+        <td>vForbidden</td>
+        <td>\</td>
+        <td>0b11</td>
+        <td>\</td>
+        <td>0b11</td>
+        <td>\</td>
+        <td>\</td>
+        <td>\ </td>
+    </tr>
+    <tr>
+        <td>TentativeVForbidden</td>
+        <td>\</td>
+        <td>0b10</td>
+        <td>\</td>
+        <td>0b00</td>
+        <td>\</td>
+        <td>\</td>
+        <td>\ </td>
+    </tr>
+    <tr>
+        <td>Colors after TentativeColor</td>
+        <td>0-0b010</td>
+        <td>0-0b000</td>
+        <td>0-0b010</td>
+        <td>0-0b100</td>
+        <td>0-0b001</td>
+        <td>0-0b010</td>
+        <td>0-0b001 </td>
+    </tr>
+    <tr>
+        <td align="center" valign="center" style="font-weight: bold">4</td>
+        <td>Colors after assignColors</td>
+        <td>0-2</td>
+        <td>0-0</td>
+        <td>0-2</td>
+        <td>0-0</td>
+        <td>0-1</td>
+        <td>0-2</td>
+        <td>0-1 </td>
+    </tr>
+</table>
 As shown in this example, at the beginning of the 4th iteration, `v[1]` and `v[3]` are not colored. This is because all colors in color set 0 are forbidden, but the color sets are not updated.
 
 Furthermore, changing the condition from "array `vForbidden` has bits set to zero" to "array `vForbidden` does not have bits set to zero" does not solve the problem. This is because it is possible that the element of `vForbidden` corresponding to a vertex has bits set to zero but the corresponding element of `tentativeVForbidden` does not have bits set to zero. In this case, we neither assign any color to the vertex nor reset its color set. Then, we get stuck in livelock.
